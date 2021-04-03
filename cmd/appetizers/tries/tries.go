@@ -6,7 +6,7 @@ const MAX_SIZE = 26
 type Trie interface {
 	Insert()
 	Search() bool
-	Delete()
+	Delete() *Node
 }
 
 type Registry struct {
@@ -32,7 +32,7 @@ func New() *Node {
 	return &Node{registry: &Registry{isEmpty: true}}
 }
 
-func (t *SingleTrie) Insert(word string) {
+func (t *SingleTrie) Insert(word string) *Node {
 	current := t.root
 	for _, n := range word {
 		index := n - 'a'
@@ -43,6 +43,7 @@ func (t *SingleTrie) Insert(word string) {
 		current = current.registry.table[index]
 	}
 	current.isWord = true
+	return current
 }
 
 func (t *SingleTrie) Search(word string) bool {
@@ -57,7 +58,7 @@ func (t *SingleTrie) Search(word string) bool {
 	return current.isWord
 }
 
-func (t *SingleTrie) Delete(word string) {
+func (t *SingleTrie) Delete(word string) *Node {
 	current := t.root
 	for _, n := range word {
 		index := n - 'a'
@@ -66,4 +67,5 @@ func (t *SingleTrie) Delete(word string) {
 		}
 	}
 	current.isWord = false
+	return current
 }
